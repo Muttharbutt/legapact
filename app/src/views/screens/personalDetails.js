@@ -11,9 +11,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import STYLES from "../../style";
 import COLORS from "../../consts/color";
+import { useRoute } from "@react-navigation/native";
 
 const PersonalDetails = (navigation) => {
   const [fullName, setFullName] = useState("");
@@ -21,19 +23,32 @@ const PersonalDetails = (navigation) => {
   const [district, setDistrict] = useState("");
   const [tehsil, setTehsil] = useState("");
   const [address, setAddress] = useState("");
+  // get phoneNumber by route.params.phoneNumber
+  // get pin by route.params.pin
+
+  const [error, setErrors] = useState("");
+  const Register = () => {
+    if (!fullName || !cnic || !district || !tehsil || !address) {
+      setErrors("Please Fill All Fields");
+    } else {
+      Alert.alert("Registered");
+      setErrors("");
+    }
+  };
 
   return (
     <KeyboardAvoidingView
       enabled
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.input}
+      style={inner.input}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles.mainContainer}>
+        <SafeAreaView style={inner.mainContainer}>
           <Text style={STYLES.heading}>Personal Deatils</Text>
           <Text style={STYLES.inputLabel}>Kindly fill in the Information</Text>
+          <Text style={inner.error}>{error}</Text>
 
-          <View style={styles.inputContainer}>
+          <View style={inner.inputContainer}>
             <Icon name="person" style={STYLES.icons} size={15} />
             <TextInput
               style={STYLES.inputFields}
@@ -46,7 +61,7 @@ const PersonalDetails = (navigation) => {
             />
           </View>
 
-          <View style={styles.inputContainer}>
+          <View style={inner.inputContainer}>
             <Icon name="person" style={STYLES.icons} size={15} />
             <TextInput
               style={STYLES.inputFields}
@@ -61,7 +76,7 @@ const PersonalDetails = (navigation) => {
             />
           </View>
 
-          <View style={styles.inputContainer}>
+          <View style={inner.inputContainer}>
             <Icon name="person" style={STYLES.icons} size={15} />
             <TextInput
               style={STYLES.inputFields}
@@ -74,7 +89,7 @@ const PersonalDetails = (navigation) => {
             />
           </View>
 
-          <View style={styles.inputContainer}>
+          <View style={inner.inputContainer}>
             <Icon name="person" style={STYLES.icons} size={15} />
             <TextInput
               style={STYLES.inputFields}
@@ -87,7 +102,7 @@ const PersonalDetails = (navigation) => {
             />
           </View>
 
-          <View style={styles.inputContainer}>
+          <View style={inner.inputContainer}>
             <Icon name="person" style={STYLES.icons} size={15} />
             <TextInput
               style={STYLES.inputFields}
@@ -100,7 +115,7 @@ const PersonalDetails = (navigation) => {
             />
           </View>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={inner.button} onPress={Register}>
             <Text>Register</Text>
             <Icon name="arrow-right" style={STYLES.buttonRightIcon} size={20} />
           </TouchableOpacity>
@@ -112,7 +127,7 @@ const PersonalDetails = (navigation) => {
 
 export default PersonalDetails;
 
-const styles = StyleSheet.create({
+const inner = StyleSheet.create({
   input: {
     flex: 1,
   },
@@ -134,9 +149,16 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#fff",
   },
+  error: {
+    color: "red",
+    padding: 10,
+    marginRight: 30,
+    borderColor: "red",
+    marginLeft: 30,
+  },
   button: {
     flexDirection: "row",
-    marginTop: 100,
+    marginTop: 70,
     width: 300,
     borderColor: "#fff",
     borderRadius: 10,

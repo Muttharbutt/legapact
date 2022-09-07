@@ -20,18 +20,41 @@ const PinSetUp = ({ navigation }) => {
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
   const route = useRoute();
+  const [error, setErrors] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const handleInputs = () => {
+    if (!pin || !confirmPin) {
+      setErrors("Please Enter Your Pin");
+      setIsValid(false);
+    } else {
+      if (pin !== confirmPin) {
+        setErrors("Both Pins are not matching");
+        setIsValid(false);
+      } else {
+        setIsValid(true);
+        setErrors("");
+      }
+    }
+  };
+  const Continue = () => {
+    handleInputs;
+    if (isValid) {
+      navigation.navigate("personalDetails", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pin,
+      });
+    }
+  };
 
   return (
     <KeyboardAvoidingView
       enabled
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.input}
+      style={inner.input}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles.mainContainer}>
-          <Text style={STYLES.heading}>
-            {route.params.phoneNumber}Setup Your Pin
-          </Text>
+        <SafeAreaView style={inner.mainContainer}>
+          <Text style={STYLES.heading}>Setup Your Pin</Text>
           <Text style={STYLES.inputLabel}>Kindly setup 6 Digit Pin</Text>
 
           <View style={STYLES.inputContainer}>
@@ -44,8 +67,10 @@ const PinSetUp = ({ navigation }) => {
               keyboardAppearance="light"
               dataDetectorTypes="phoneNumber"
               maxLength={6}
+              onEndEditing={handleInputs}
               value={pin}
               onChangeText={(value) => setPin(value)}
+              secureTextEntry={true}
             />
           </View>
           <View style={STYLES.inputContainer}>
@@ -58,14 +83,14 @@ const PinSetUp = ({ navigation }) => {
               keyboardAppearance="light"
               dataDetectorTypes="phoneNumber"
               maxLength={6}
+              onEndEditing={handleInputs}
               value={confirmPin}
               onChangeText={(value) => setConfirmPin(value)}
+              secureTextEntry={true}
             />
           </View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("personalDetails")}
-          >
+          <Text style={inner.error}>{error}</Text>
+          <TouchableOpacity style={inner.button} onPress={Continue}>
             <Text>Continue</Text>
             <Icon name="arrow-right" style={STYLES.buttonRightIcon} size={20} />
           </TouchableOpacity>
@@ -77,7 +102,7 @@ const PinSetUp = ({ navigation }) => {
 
 export default PinSetUp;
 
-const styles = StyleSheet.create({
+const inner = StyleSheet.create({
   input: {
     flex: 1,
   },
@@ -87,9 +112,17 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     backgroundColor: COLORS.primary,
   },
+  error: {
+    color: "red",
+    padding: 10,
+    marginRight: 30,
+    borderColor: "red",
+    marginLeft: 30,
+  },
+
   button: {
     flexDirection: "row",
-    marginTop: 200,
+    marginTop: 170,
     width: 300,
     borderColor: "#fff",
     borderRadius: 10,

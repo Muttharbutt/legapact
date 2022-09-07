@@ -18,15 +18,31 @@ import COLORS from "../../consts/color";
 
 const PhoneNumber = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [error, setErrors] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const handleInputs = () => {
+    if (!phoneNumber) {
+      setErrors("Please Enter Your Phone Number");
+      setPhoneNumber("");
+    } else {
+      setIsValid(true);
+      setErrors("");
+    }
+  };
+  const Continue = () => {
+    if (isValid) {
+      navigation.navigate("otpInput", { phoneNumber: phoneNumber });
+    }
+  };
 
   return (
     <KeyboardAvoidingView
       enabled
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.input}
+      style={inner.input}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles.mainContainer}>
+        <SafeAreaView style={inner.mainContainer}>
           <Text style={STYLES.heading}>Let's get started</Text>
           <Text style={STYLES.inputLabel}>
             please enter your mobile number{" "}
@@ -45,17 +61,15 @@ const PhoneNumber = ({ navigation }) => {
               dataDetectorTypes="phoneNumber"
               maxLength={11}
               value={phoneNumber}
+              onEndEditing={handleInputs}
               onChangeText={(value) => {
                 setPhoneNumber(value);
               }}
             />
           </View>
-          <TouchableOpacity
-            style={STYLES.button}
-            onPress={() =>
-              navigation.navigate("otpInput", { phoneNumber: phoneNumber })
-            }
-          >
+
+          <Text style={inner.error}>{error}</Text>
+          <TouchableOpacity style={inner.button} onPress={Continue}>
             <Text>Continue</Text>
             <Icon name="arrow-right" style={STYLES.buttonRightIcon} size={20} />
           </TouchableOpacity>
@@ -67,7 +81,7 @@ const PhoneNumber = ({ navigation }) => {
 
 export default PhoneNumber;
 
-const styles = StyleSheet.create({
+const inner = StyleSheet.create({
   input: {
     flex: 1,
   },
@@ -76,5 +90,24 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingTop: 30,
     backgroundColor: COLORS.primary,
+  },
+  button: {
+    flexDirection: "row",
+    marginTop: 270,
+    width: 300,
+    borderColor: "#fff",
+    borderRadius: 10,
+    height: 40,
+    margin: 30,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: "#fff",
+  },
+  error: {
+    color: "red",
+    padding: 10,
+    marginRight: 30,
+    borderColor: "red",
+    marginLeft: 30,
   },
 });

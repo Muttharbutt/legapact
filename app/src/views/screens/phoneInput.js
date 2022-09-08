@@ -11,15 +11,15 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import STYLES from "../../style";
-import COLORS from "../../consts/color";
 
 const PhoneNumber = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setErrors] = useState("");
   const [isValid, setIsValid] = useState(false);
+
+  // validation Function
   const handleInputs = () => {
     if (!phoneNumber) {
       setErrors("Please Enter Your Phone Number");
@@ -29,7 +29,10 @@ const PhoneNumber = ({ navigation }) => {
       setErrors("");
     }
   };
+
+  // Main Function
   const Continue = () => {
+    handleInputs;
     if (isValid) {
       navigation.navigate("otpInput", { phoneNumber: phoneNumber });
     }
@@ -39,39 +42,42 @@ const PhoneNumber = ({ navigation }) => {
     <KeyboardAvoidingView
       enabled
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={inner.input}
+      style={STYLES.wholeContainer}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={inner.mainContainer}>
-          <Text style={STYLES.heading}>Let's get started</Text>
-          <Text style={STYLES.inputLabel}>
-            please enter your mobile number{" "}
-          </Text>
-
-          <View style={STYLES.inputContainer}>
-            <Icon name="phone" style={STYLES.icons} size={15} />
-
-            <TextInput
-              style={STYLES.inputFields}
-              placeholder="033355105430"
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="numeric"
-              keyboardAppearance="light"
-              dataDetectorTypes="phoneNumber"
-              maxLength={11}
-              value={phoneNumber}
-              onEndEditing={handleInputs}
-              onChangeText={(value) => {
-                setPhoneNumber(value);
-              }}
-            />
+        <SafeAreaView style={STYLES.mainContainer}>
+          <View>
+            <Text style={STYLES.heading}>Let's get started</Text>
+            <Text style={STYLES.inputLabel}>
+              please enter your mobile number{" "}
+            </Text>
           </View>
 
-          <Text style={inner.error}>{error}</Text>
-          <TouchableOpacity style={inner.button} onPress={Continue}>
-            <Text>Continue</Text>
-            <Icon name="arrow-right" style={STYLES.buttonRightIcon} size={20} />
+          <View>
+            <View style={STYLES.inputContainer}>
+              <Icon name="phone" style={STYLES.icons} size={20} />
+
+              <TextInput
+                style={STYLES.inputFields}
+                placeholder="033355105430"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="numeric"
+                keyboardAppearance="light"
+                dataDetectorTypes="phoneNumber"
+                maxLength={11}
+                value={phoneNumber}
+                onEndEditing={handleInputs}
+                onChangeText={(value) => {
+                  setPhoneNumber(value);
+                }}
+              />
+            </View>
+            <Text style={STYLES.error}>{error}</Text>
+          </View>
+          <TouchableOpacity style={STYLES.button} onPress={Continue}>
+            <Text style={STYLES.buttonText}>Continue</Text>
+            <Icon name="arrow-right" size={30} />
           </TouchableOpacity>
         </SafeAreaView>
       </TouchableWithoutFeedback>
@@ -80,34 +86,3 @@ const PhoneNumber = ({ navigation }) => {
 };
 
 export default PhoneNumber;
-
-const inner = StyleSheet.create({
-  input: {
-    flex: 1,
-  },
-  mainContainer: {
-    flex: 1,
-    height: "100%",
-    paddingTop: 30,
-    backgroundColor: COLORS.primary,
-  },
-  button: {
-    flexDirection: "row",
-    marginTop: 270,
-    width: 300,
-    borderColor: "#fff",
-    borderRadius: 10,
-    height: 40,
-    margin: 30,
-    borderWidth: 1,
-    padding: 10,
-    backgroundColor: "#fff",
-  },
-  error: {
-    color: "red",
-    padding: 10,
-    marginRight: 30,
-    borderColor: "red",
-    marginLeft: 30,
-  },
-});

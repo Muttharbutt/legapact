@@ -2,27 +2,28 @@ import { StyleSheet } from "react-native";
 import COLORS from "../consts/color";
 
 const STYLES = StyleSheet.create({
+  background: { flex: 1, resizeMode: "contain" },
   wholeContainer: {
     flex: 1,
-    backgroundColor: COLORS.primary,
   },
   mainContainer: {
+    borderRadius: 20,
     flex: 1,
     height: "100%",
-    paddingTop: 30,
+    margin: 20,
+    marginTop: 40,
+    backgroundColor: COLORS.secondary,
     justifyContent: "space-between",
   },
   inputContainer: {
     flexDirection: "row",
-    width: "80%",
-    borderColor: "#fff",
+    borderColor: COLORS.primary,
     borderRadius: 10,
     height: 50,
-    marginLeft: 30,
+    marginLeft: 10,
     marginTop: 10,
     borderWidth: 1,
     padding: 10,
-    backgroundColor: "#fff",
   },
   inputFields: {
     paddingLeft: 20,
@@ -31,42 +32,48 @@ const STYLES = StyleSheet.create({
     margin: 4,
   },
   heading: {
-    paddingTop: 50,
+    marginTop: 50,
     fontSize: 24,
-    color: COLORS.heading,
-    flex: 0,
+    color: COLORS.primary,
     paddingLeft: 30,
   },
   inputLabel: {
-    color: "#fff",
+    color: COLORS.primary,
     fontSize: 15,
     marginTop: 10,
     paddingLeft: 30,
   },
   button: {
     flexDirection: "row",
-    width: "80%",
-    borderColor: "#fff",
-    borderRadius: 10,
+    borderColor: COLORS.primary,
+    borderRadius: 30,
     height: 50,
     alignItems: "center",
     margin: 30,
     borderWidth: 1,
     padding: 10,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.primary,
     justifyContent: "space-between",
   },
 
   buttonText: {
     fontSize: 15,
+    color: COLORS.secondary,
+    marginLeft: 10,
     justifyContent: "flex-start",
   },
   error: {
     color: "red",
     padding: 10,
-    marginRight: 30,
     borderColor: "red",
-    marginLeft: 30,
+    marginLeft: 20,
+  },
+  setPinBanner: {
+    marginTop: 20,
+    alignSelf: "center",
+  },
+  avoid: {
+    flex: 1,
   },
 });
 
